@@ -4,7 +4,7 @@ import time
 import config
 
 bot = telebot.TeleBot(config.TOKEN)
-found_words = {} # словарь для хранения информации о найденных словах
+found_words = {} # словарь для хранения информации о найденных словах / dictionary for storing information about found words
 
 @bot.message_handler(commands=['start'])
 def handle_start(message):
@@ -21,12 +21,12 @@ def handle_text(message):
             found_words[(chat_id, word)] = True
 
 def get_updates():
-    # Запрос обновлений из канала с идентификатором CHANNEL_ID
+    # Запрос обновлений из канала с идентификатором CHANNEL_ID / Request updates from a channel with the CHANNEL_ID
     url = f"https://api.telegram.org/bot{config.TOKEN}/getUpdates?offset=-1&chat_id=-{config.ID}"
     response = requests.get(url)
     data = response.json()
 
-    # Обработка полученных сообщений
+    # Обработка полученных сообщений / Handling received messages
     for message in data["result"]:
         chat_id = message["message"]["chat"]["id"]
         text = message["message"]["text"].lower()
@@ -38,8 +38,8 @@ def get_updates():
 
 while True:
     try:
-        get_updates() # Получение обновлений из канала
-        time.sleep(5) # Задержка между запросами
+        get_updates() # Получение обновлений из канала / Getting updates from a channel
+        time.sleep(5) # Задержка между запросами / Delay between requests
 
     except Exception as e:
         print(e)
